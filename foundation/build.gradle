@@ -1,0 +1,22 @@
+plugins {
+    id 'java'
+    id 'java-library'
+}
+
+group 'com.andoverrobotics.inventory'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.11
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile 'org.mockito:mockito-core:2.28.2'
+
+    implementation 'com.google.code.gson:gson:2.8.5'
+}
+
+ext.moduleName = 'com.andoverrobotics.inventory.foundation'
