@@ -3,7 +3,7 @@ package com.andoverrobotics.inventory;
 import com.andoverrobotics.inventory.mutations.Mutation;
 import com.andoverrobotics.inventory.query.FilterQuery;
 import com.andoverrobotics.inventory.security.Identity;
-import com.andoverrobotics.inventory.security.permission.PermissionLevel;
+import com.andoverrobotics.inventory.security.PermissionLevel;
 import com.andoverrobotics.inventory.security.UnauthorizedException;
 
 import java.util.stream.Stream;
@@ -20,4 +20,5 @@ public interface FoundationGateway extends Dependent<PersistenceGateway> {
 
   boolean addEmailToWhitelist(Identity changer, String email) throws UnauthorizedException;
   boolean removeEmailFromWhitelist(Identity changer, String email) throws UnauthorizedException;
+  Stream<String> whitelist(Identity viewer) throws UnauthorizedException;
 }

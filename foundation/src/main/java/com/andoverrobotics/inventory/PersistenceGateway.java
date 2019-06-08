@@ -21,4 +21,5 @@ public interface PersistenceGateway {
 
   boolean addToWhitelist(Identity adder, String newWhitelistItem);
   boolean removeFromWhitelist(Identity remover, String wasWhitelistItem);
+  Stream<String> whitelist();
 }

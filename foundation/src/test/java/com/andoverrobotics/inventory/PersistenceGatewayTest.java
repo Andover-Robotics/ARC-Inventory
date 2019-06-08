@@ -7,7 +7,7 @@ import org.junit.Test;
 import java.time.LocalDateTime;
 import java.util.stream.Stream;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 public class PersistenceGatewayTest {
 
@@ -43,6 +43,11 @@ public class PersistenceGatewayTest {
       @Override
       public boolean removeFromWhitelist(Identity remover, String wasWhitelistItem) {
         return false;
+      }
+
+      @Override
+      public Stream<String> whitelist() {
+        return null;
       }
     };
     assertNotNull(gateway.getFullAuditLog());
