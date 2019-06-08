@@ -3,7 +3,7 @@ package com.andoverrobotics.inventory;
 import com.andoverrobotics.inventory.mutations.Mutation;
 import com.andoverrobotics.inventory.query.FilterQuery;
 import com.andoverrobotics.inventory.security.Identity;
-import com.andoverrobotics.inventory.security.PermissionLevel;
+import com.andoverrobotics.inventory.security.permission.PermissionLevel;
 import com.andoverrobotics.inventory.security.UnauthorizedException;
 
 import java.util.stream.Stream;
