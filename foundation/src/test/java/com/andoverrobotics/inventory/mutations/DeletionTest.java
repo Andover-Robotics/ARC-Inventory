@@ -3,13 +3,11 @@ package com.andoverrobotics.inventory.mutations;
 import com.andoverrobotics.inventory.PartType;
 import org.junit.Test;
 
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.NoSuchElementException;
+import java.util.UUID;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 public class DeletionTest {
   private Deletion deletion;
@@ -26,10 +24,10 @@ public class DeletionTest {
   );
 
   @Test
-  public void removesPartWithGivenNumberWhenPresent() {
+  public void removesPartWithGivenUuidWhenPresent() {
     var inventory = new ArrayList<PartType>();
     inventory.add(part);
-    deletion = new Deletion(part.getPartNumber());
+    deletion = new Deletion(part.getUuid());
 
     deletion.apply(inventory);
 
@@ -39,7 +37,7 @@ public class DeletionTest {
   @Test(expected = NoSuchElementException.class)
   public void throwsExceptionWhenNotPresent() {
     var inventory = new ArrayList<PartType>();
-    deletion = new Deletion("NONEXISTENT-PART");
+    deletion = new Deletion(UUID.randomUUID());
 
     deletion.apply(inventory);
   }

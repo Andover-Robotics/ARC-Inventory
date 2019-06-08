@@ -17,6 +17,7 @@ dependencies {
     testCompile 'org.mockito:mockito-core:2.28.2'
 
     implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.google.api-client:google-api-client:1.29.2'
 }
 
 ext.moduleName = 'com.andoverrobotics.inventory.foundation'

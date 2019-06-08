@@ -4,12 +4,13 @@ import com.andoverrobotics.inventory.PartType;
 
 import java.util.Collection;
 import java.util.NoSuchElementException;
+import java.util.UUID;
 
 public class Deletion implements Mutation {
-  private final String partNumber;
+  private final UUID uuid;
 
-  public Deletion(String partNumber) {
-    this.partNumber = partNumber;
+  public Deletion(UUID uuid) {
+    this.uuid = uuid;
   }
 
   @Override
@@ -17,13 +18,13 @@ public class Deletion implements Mutation {
     PartType partToRemove = null;
 
     for (var part : parts) {
-      if (part.getPartNumber().equals(partNumber)) {
+      if (part.getUuid().equals(uuid)) {
         partToRemove = part;
       }
     }
 
     if (partToRemove == null)
-      throw new NoSuchElementException(partNumber);
+      throw new NoSuchElementException(uuid.toString());
     parts.remove(partToRemove);
   }
 }

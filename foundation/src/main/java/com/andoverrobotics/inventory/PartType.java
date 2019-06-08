@@ -2,15 +2,17 @@ package com.andoverrobotics.inventory;
 
 import java.net.URL;
 import java.util.Set;
+import java.util.UUID;
 
 public class PartType {
+  private UUID uuid;
   private String name, partNumber, brand, category, location, team;
   private Set<String> keywords;
   private int quantity;
   private URL url, imageUrl;
 
   public PartType(String name, String partNumber, String brand, String category,
-                  String location, String team, int quantity, URL url, URL imageUrl, String... keywords) {
+                  String location, String team, int quantity, URL url, URL imageUrl, UUID uuid, String... keywords) {
     this.name = name;
     this.partNumber = partNumber;
     this.brand = brand;
@@ -22,6 +24,12 @@ public class PartType {
     this.url = url;
     this.imageUrl = imageUrl;
     this.keywords = Set.of(keywords);
+    this.uuid = uuid;
+  }
+
+  public PartType(String name, String partNumber, String brand, String category,
+                  String location, String team, int quantity, URL url, URL imageUrl, String... keywords) {
+    this(name, partNumber, brand, category, location, team, quantity, url, imageUrl, UUID.randomUUID(), keywords);
   }
 
   public String getName() {
@@ -68,5 +76,9 @@ public class PartType {
     if (amount > quantity) throw new IllegalArgumentException(
         "stack underflow: attempted to use " + amount + " of " + name + " when only " + quantity + " available");
     quantity -= amount;
+  }
+
+  public UUID getUuid() {
+    return uuid;
   }
 }

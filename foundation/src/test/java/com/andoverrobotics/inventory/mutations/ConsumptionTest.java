@@ -8,6 +8,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 
@@ -30,13 +31,13 @@ public class ConsumptionTest {
   }
 
   @Before
-  public void setUp() throws Exception {
+  public void setUp() {
     inventory = Collections.singletonList(part);
   }
 
   @Test
   public void decrementsQuantityWhenAppliedAndPresent() {
-    var consume = new Consumption("5202-0002-0005", 3);
+    var consume = new Consumption(part.getUuid(), 3);
 
     consume.apply(inventory);
 
@@ -45,7 +46,7 @@ public class ConsumptionTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void throwsExceptionWhenAppliedAndNotPresent() {
-    var consume = new Consumption("0001-NON-EXISTENT", 1);
+    var consume = new Consumption(UUID.randomUUID(), 1);
 
     consume.apply(inventory);
   }

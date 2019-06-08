@@ -2,9 +2,9 @@ package com.andoverrobotics.inventory;
 
 import org.junit.Test;
 
-import java.net.URL;
+import java.util.UUID;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class PartTypeTest {
   @Test
@@ -19,7 +19,8 @@ public class PartTypeTest {
         "keywords",
         "quantity",
         "url",
-        "imageUrl"
+        "imageUrl",
+        "uuid"
     };
 
     for (String attribute : attributes) {
@@ -58,6 +59,24 @@ public class PartTypeTest {
         null, null,
         "1150", "5.2:1"
     );
+  }
+
+  @Test
+  public void initializeWithUuid() {
+    UUID uuid = UUID.randomUUID();
+    var part = new PartType(
+        "Yellow Jacket Planetary Gear Motor",
+        "5202-0002-0005",
+        "goBILDA",
+        "Motors",
+        "Motor Box",
+        "All",
+        2,
+        null, null,
+        uuid, "1150", "5.2:1"
+    );
+
+    assertEquals(uuid, part.getUuid());
   }
 
   private String capitalized(String attribute) {
