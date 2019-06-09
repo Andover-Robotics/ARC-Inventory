@@ -6,19 +6,22 @@ import com.andoverrobotics.inventory.security.Identity;
 import com.andoverrobotics.inventory.security.PermissionLevel;
 import com.andoverrobotics.inventory.security.UnauthorizedException;
 
+import javax.annotation.Nullable;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.stream.Stream;
 
 /*
   Gateway to enable the flow of control to travel from the frontend to the foundation.
  */
-public interface FoundationGateway extends Dependent<PersistenceGateway> {
-  Stream<PartType> filter(Identity searcher, FilterQuery query) throws UnauthorizedException;
+public interface FoundationGateway {
+  Stream<PartType> filter(@Nullable Identity searcher, FilterQuery query) throws UnauthorizedException;
   boolean change(Identity changer, Mutation mutation) throws UnauthorizedException;
 
-  Identity identify(String idToken);
+  Identity identify(String idToken) throws GeneralSecurityException, IOException;
   PermissionLevel permissionLevelOf(Identity identity);
 
   boolean addEmailToWhitelist(Identity changer, String email) throws UnauthorizedException;
   boolean removeEmailFromWhitelist(Identity changer, String email) throws UnauthorizedException;
-  Stream<String> whitelist(Identity viewer) throws UnauthorizedException;
+  Stream<String> whitelist(@Nullable Identity viewer) throws UnauthorizedException;
 }

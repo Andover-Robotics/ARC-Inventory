@@ -7,7 +7,7 @@ import java.util.NoSuchElementException;
 import java.util.UUID;
 
 public class Deletion implements Mutation {
-  private final UUID uuid;
+  public final UUID uuid;
 
   public Deletion(UUID uuid) {
     this.uuid = uuid;

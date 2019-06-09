@@ -5,7 +5,7 @@ import com.andoverrobotics.inventory.PartType;
 import java.util.Collection;
 
 public class Addition implements Mutation {
-  private final PartType newPart;
+  public final PartType newPart;
 
   public Addition(PartType newPart) {
     this.newPart = newPart;

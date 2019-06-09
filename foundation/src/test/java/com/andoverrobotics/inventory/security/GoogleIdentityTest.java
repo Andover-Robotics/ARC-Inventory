@@ -23,4 +23,13 @@ public class GoogleIdentityTest {
 
     assertFalse(identity.isIdenticalTo(otherIdentity));
   }
+
+  @Test
+  public void canInitializeWithHostedDomain() {
+    var identity = new GoogleIdentity("1000012010201",
+        "michael@andoverrobotics.com", "Michael Peng", "http://ungif.it",
+        "andoverrobotics.com");
+
+    assertEquals("andoverrobotics.com", identity.hostedDomain);
+  }
 }

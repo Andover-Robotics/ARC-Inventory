@@ -4,6 +4,7 @@ import com.andoverrobotics.inventory.mutations.Mutation;
 import org.junit.Test;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -28,6 +29,6 @@ public class AuditLogItemImplTest {
   public void constructorWithoutTimeSetsTimeToNow() {
     ali = new AuditLogItemImpl(initiator, mutation);
 
-    assertTrue(ali.getTime().isEqual(LocalDateTime.now()));
+    assertTrue(ali.getTime().until(LocalDateTime.now(), ChronoUnit.MICROS) < 50);
   }
 }

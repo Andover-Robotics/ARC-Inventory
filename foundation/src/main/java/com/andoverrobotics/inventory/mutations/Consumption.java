@@ -6,8 +6,8 @@ import java.util.Collection;
 import java.util.UUID;
 
 public class Consumption implements Mutation {
-  private final UUID uuid;
-  private final int amount;
+  public final UUID uuid;
+  public final int amount;
 
   public Consumption(UUID uuid, int amount) {
     this.uuid = uuid;
