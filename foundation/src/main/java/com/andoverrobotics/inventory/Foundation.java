@@ -75,7 +75,26 @@ public class Foundation implements FoundationGateway {
   @Override
   public Stream<AuditLogItem> auditLogSince(Identity viewer, LocalDateTime date) {
     checkNonNull(date, "audit log date");
-    return persistence.auditLogBetween(date, LocalDateTime.now());
+    return persistence.auditLog().dropWhile(item -> item.getTime().isBefore(date));
+  }
+
+  @Override
+  public void rollback(Identity actor, AuditLogItem mostRecentLogItemToKeep) throws IllegalArgumentException {
+    checkNonNull(mostRecentLogItemToKeep, "most recent LogItem to keep");
+    ensureAuthorized(actor, Action.EDIT_INVENTORY);
+    persistence.rollback(mostRecentLogItemToKeep);
+  }
+
+  @Override
+  public void rollback(Identity actor, LocalDateTime instant) {
+    checkNonNull(instant, "instant to rollback to");
+    ensureAuthorized(actor, Action.EDIT_INVENTORY);
+    var logItem = persistence.auditLog()
+        .takeWhile(item -> item.getTime().isBefore(instant) || item.getTime().isEqual(instant))
+        .reduce((a, b) -> b)
+        .orElseThrow(() -> new IllegalArgumentException("rollback to before the first log item"));
+
+    persistence.rollback(logItem);
   }
 
   private void ensureAuthorized(Identity actor, Action action) throws UnauthorizedException {

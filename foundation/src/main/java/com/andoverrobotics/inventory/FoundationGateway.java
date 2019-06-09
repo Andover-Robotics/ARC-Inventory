@@ -28,4 +28,6 @@ public interface FoundationGateway {
   Stream<String> whitelist(@Nullable Identity viewer) throws UnauthorizedException;
 
   Stream<AuditLogItem> auditLogSince(Identity viewer, LocalDateTime date);
+  void rollback(Identity actor, AuditLogItem mostRecentLogItemToKeep) throws IllegalArgumentException, UnauthorizedException;
+  void rollback(Identity actor, LocalDateTime instant) throws IllegalArgumentException, UnauthorizedException;
 }

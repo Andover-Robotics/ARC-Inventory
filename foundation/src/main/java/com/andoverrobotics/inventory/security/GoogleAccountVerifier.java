@@ -40,6 +40,4 @@ public class GoogleAccountVerifier {
         payload.getHostedDomain()
     );
   }
-
-
 }

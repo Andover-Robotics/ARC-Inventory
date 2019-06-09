@@ -29,6 +29,7 @@ public class AuditLogItemImplTest {
   public void constructorWithoutTimeSetsTimeToNow() {
     ali = new AuditLogItemImpl(initiator, mutation);
 
-    assertTrue(ali.getTime().until(LocalDateTime.now(), ChronoUnit.MICROS) < 50);
+    long msDiff = ali.getTime().until(LocalDateTime.now(), ChronoUnit.MICROS);
+    assertTrue(Long.toString(msDiff), msDiff < 50);
   }
 }

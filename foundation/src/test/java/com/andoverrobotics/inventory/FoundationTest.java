@@ -19,10 +19,28 @@ public class FoundationTest {
   private GoogleAccountVerifier accountVerifier = mock(GoogleAccountVerifier.class);
   private FoundationGateway foundation = new Foundation(persistence, accountVerifier);
 
+  private static Identity publicIdentity = mock(Identity.class),
+      whitelistedIdentity = new GoogleIdentity("120123012", "whitelisted@gmail.com", "The Whitelisted", ""),
+      adminIdentity = new GoogleIdentity("1012031923", "any@andoverrobotics.com", "The Admin",
+          "", "andoverrobotics.com");
+  private static Mutation mockMutation = mock(Mutation.class);
+
+  private static final AuditLogItem[] kLogItems = {
+      new AuditLogItemImpl(whitelistedIdentity, mockMutation,
+          LocalDateTime.of(2019, 6, 10, 14, 12, 1)),
+      new AuditLogItemImpl(whitelistedIdentity, mockMutation,
+          LocalDateTime.of(2019, 6, 12, 14, 12, 1)),
+      new AuditLogItemImpl(whitelistedIdentity, mockMutation,
+          LocalDateTime.of(2019, 6, 12, 18, 12, 1)),
+      new AuditLogItemImpl(whitelistedIdentity, mockMutation,
+          LocalDateTime.of(2019, 6, 13, 1, 12, 1)),
+  };
+
   @Before
   public void setUp() {
     reset(persistence, accountVerifier);
     when(persistence.whitelist()).thenReturn(Stream.of("whitelisted@gmail.com"));
+    when(persistence.auditLog()).thenReturn(Stream.of(kLogItems));
   }
 
   @Test
@@ -164,21 +182,25 @@ public class FoundationTest {
   @Test(expected = IllegalArgumentException.class)
   public void rejectNullWhitelistEmails() {
     foundation.addEmailToWhitelist(adminIdentity, null);
+    verifyZeroInteractions(persistence);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void rejectNullWhitelistRemovals() {
     foundation.removeEmailFromWhitelist(adminIdentity, null);
+    verifyZeroInteractions(persistence);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void rejectNullMutations() {
     foundation.change(adminIdentity, null);
+    verifyZeroInteractions(persistence);
   }
 
   @Test(expected = UnauthorizedException.class)
   public void publicCannotEdit() {
     foundation.change(publicIdentity, mock(Mutation.class));
+    verifyZeroInteractions(persistence);
   }
 
   @Test
@@ -195,21 +217,82 @@ public class FoundationTest {
   @Test(expected = IllegalArgumentException.class)
   public void rejectNullDateTimeForAuditLog() {
     foundation.auditLogSince(adminIdentity, null);
+    verifyZeroInteractions(persistence);
   }
 
   @Test
   public void everyoneCanSeeAuditLog() {
-    var logItem = mock(AuditLogItem.class);
     var startTime = LocalDateTime.of(2019, 1, 4, 10, 15, 0);
-    when(persistence.auditLogBetween(eq(startTime), any())).thenReturn(Stream.of(logItem));
 
     var log = foundation.auditLogSince(null, startTime).toArray();
 
-    assertEquals(log[0], logItem);
+    assertArrayEquals(kLogItems, log);
+    verify(persistence).auditLog();
   }
 
-  private static Identity publicIdentity = mock(Identity.class),
-    whitelistedIdentity = new GoogleIdentity("120123012", "whitelisted@gmail.com", "The Whitelisted", ""),
-    adminIdentity = new GoogleIdentity("1012031923", "any@andoverrobotics.com", "The Admin",
-        "", "andoverrobotics.com");
+  @Test
+  public void auditLogSinceDateBetweenLogItems() {
+    var log = foundation.auditLogSince(adminIdentity,
+        LocalDateTime.of(2019, 6, 11, 14, 12, 1)).toArray();
+
+    for (int i = 0; i < log.length; i++) {
+      assertEquals(kLogItems[i + 1], log[i]);
+    }
+  }
+
+  @Test
+  public void auditLogSinceDateOfLogItem() {
+    var log = foundation.auditLogSince(adminIdentity,
+        LocalDateTime.of(2019, 6, 12, 18, 12, 1)).toArray();
+
+    assertEquals(2, log.length);
+    for (int i = 0; i < log.length; i++) {
+      assertEquals(kLogItems[i + 2], log[i]);
+    }
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void rejectNullRollbackLogItem() {
+    foundation.rollback(adminIdentity, (AuditLogItem) null);
+    verifyZeroInteractions(persistence);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void rejectNullRollbackDate() {
+    foundation.rollback(adminIdentity, (LocalDateTime) null);
+    verifyZeroInteractions(persistence);
+  }
+
+  @Test(expected = UnauthorizedException.class)
+  public void publicCannotRollbackToLogItem() {
+    foundation.rollback(publicIdentity, kLogItems[2]);
+  }
+
+  @Test(expected = UnauthorizedException.class)
+  public void publicCannotRollbackToInstant() {
+    foundation.rollback(publicIdentity, LocalDateTime.now());
+  }
+
+  @Test
+  public void rollbackToLogItemCallsPersistence() {
+    foundation.rollback(whitelistedIdentity, kLogItems[1]);
+    verify(persistence).rollback(kLogItems[1]);
+  }
+
+  @Test
+  public void rollbackToInstantSelectsLastLogItemBeforeInstant() {
+    foundation.rollback(whitelistedIdentity, kLogItems[1].getTime().plusMinutes(2));
+    verify(persistence).rollback(kLogItems[1]);
+  }
+
+  @Test
+  public void rollbackToInstantSelectsLastLogItemEqualToInstant() {
+    foundation.rollback(whitelistedIdentity, kLogItems[1].getTime());
+    verify(persistence).rollback(kLogItems[1]);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void rollbackToInstantBeforeFirstItemThrowsException() {
+    foundation.rollback(whitelistedIdentity, kLogItems[0].getTime().minusMinutes(1));
+  }
 }
