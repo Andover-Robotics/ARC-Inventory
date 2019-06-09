@@ -7,6 +7,7 @@ import com.andoverrobotics.inventory.security.*;
 import javax.annotation.Nullable;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.time.LocalDateTime;
 import java.util.stream.Stream;
 
 public class Foundation implements FoundationGateway {
@@ -27,7 +28,9 @@ public class Foundation implements FoundationGateway {
 
   @Override
   public boolean change(Identity changer, Mutation mutation) throws UnauthorizedException {
-    return false;
+    checkNonNull(mutation, "proposed mutation");
+    ensureAuthorized(changer, Action.EDIT_INVENTORY);
+    return persistence.change(changer, mutation);
   }
 
   @Override
@@ -67,6 +70,12 @@ public class Foundation implements FoundationGateway {
   public Stream<String> whitelist(@Nullable Identity viewer) throws UnauthorizedException {
     ensureAuthorized(viewer, Action.MANAGE);
     return persistence.whitelist();
+  }
+
+  @Override
+  public Stream<AuditLogItem> auditLogSince(Identity viewer, LocalDateTime date) {
+    checkNonNull(date, "audit log date");
+    return persistence.auditLogBetween(date, LocalDateTime.now());
   }
 
   private void ensureAuthorized(Identity actor, Action action) throws UnauthorizedException {

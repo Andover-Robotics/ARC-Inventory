@@ -1,5 +1,6 @@
 package com.andoverrobotics.inventory;
 
+import com.andoverrobotics.inventory.mutations.Mutation;
 import com.andoverrobotics.inventory.query.FilterQuery;
 import com.andoverrobotics.inventory.security.*;
 import org.junit.Before;
@@ -7,6 +8,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.time.LocalDateTime;
 import java.util.stream.Stream;
 
 import static org.junit.Assert.*;
@@ -167,6 +169,43 @@ public class FoundationTest {
   @Test(expected = IllegalArgumentException.class)
   public void rejectNullWhitelistRemovals() {
     foundation.removeEmailFromWhitelist(adminIdentity, null);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void rejectNullMutations() {
+    foundation.change(adminIdentity, null);
+  }
+
+  @Test(expected = UnauthorizedException.class)
+  public void publicCannotEdit() {
+    foundation.change(publicIdentity, mock(Mutation.class));
+  }
+
+  @Test
+  public void mutationsPassedToPersistence() {
+    var mutation = mock(Mutation.class);
+    when(persistence.change(whitelistedIdentity, mutation)).thenReturn(true);
+
+    var result = foundation.change(whitelistedIdentity, mutation);
+
+    assertTrue(result);
+    verify(persistence).change(whitelistedIdentity, mutation);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void rejectNullDateTimeForAuditLog() {
+    foundation.auditLogSince(adminIdentity, null);
+  }
+
+  @Test
+  public void everyoneCanSeeAuditLog() {
+    var logItem = mock(AuditLogItem.class);
+    var startTime = LocalDateTime.of(2019, 1, 4, 10, 15, 0);
+    when(persistence.auditLogBetween(eq(startTime), any())).thenReturn(Stream.of(logItem));
+
+    var log = foundation.auditLogSince(null, startTime).toArray();
+
+    assertEquals(log[0], logItem);
   }
 
   private static Identity publicIdentity = mock(Identity.class),

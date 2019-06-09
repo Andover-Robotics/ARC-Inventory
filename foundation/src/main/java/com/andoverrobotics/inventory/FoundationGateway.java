@@ -2,6 +2,7 @@ package com.andoverrobotics.inventory;
 
 import com.andoverrobotics.inventory.mutations.Mutation;
 import com.andoverrobotics.inventory.query.FilterQuery;
+import com.andoverrobotics.inventory.security.AuditLogItem;
 import com.andoverrobotics.inventory.security.Identity;
 import com.andoverrobotics.inventory.security.PermissionLevel;
 import com.andoverrobotics.inventory.security.UnauthorizedException;
@@ -9,6 +10,7 @@ import com.andoverrobotics.inventory.security.UnauthorizedException;
 import javax.annotation.Nullable;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.time.LocalDateTime;
 import java.util.stream.Stream;
 
 /*
@@ -24,4 +26,6 @@ public interface FoundationGateway {
   boolean addEmailToWhitelist(Identity changer, String email) throws UnauthorizedException;
   boolean removeEmailFromWhitelist(Identity changer, String email) throws UnauthorizedException;
   Stream<String> whitelist(@Nullable Identity viewer) throws UnauthorizedException;
+
+  Stream<AuditLogItem> auditLogSince(Identity viewer, LocalDateTime date);
 }

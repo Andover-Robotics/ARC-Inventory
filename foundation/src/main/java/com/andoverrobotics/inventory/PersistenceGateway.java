@@ -13,11 +13,7 @@ public interface PersistenceGateway {
   Stream<PartType> filter(FilterQuery query);
   boolean change(Identity changer, Mutation mutation);
 
-  Stream<AuditLogItem> getAuditLogSince(LocalDateTime time);
-  default Stream<AuditLogItem> getFullAuditLog() {
-    return getAuditLogSince(
-        LocalDateTime.of(2018, 1, 1, 12, 0));
-  }
+  Stream<AuditLogItem> auditLogBetween(LocalDateTime start, LocalDateTime end);
 
   boolean addToWhitelist(Identity adder, String newWhitelistItem);
   boolean removeFromWhitelist(Identity remover, String wasWhitelistItem);
