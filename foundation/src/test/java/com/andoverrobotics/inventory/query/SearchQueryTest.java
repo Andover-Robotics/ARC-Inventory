@@ -6,7 +6,8 @@ import org.junit.Test;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class SearchQueryTest {
   private PartType yellowJacket = new PartType(
@@ -83,5 +84,13 @@ public class SearchQueryTest {
 
     assertFalse(testee.matches(yellowJacket));
     assertTrue(testee.matches(buttonHeadScrew));
+  }
+
+  @Test
+  public void searchByKeywords() {
+    var testee = new SearchQuery("5.2:1");
+
+    assertTrue(testee.matches(yellowJacket));
+    assertFalse(testee.matches(buttonHeadScrew));
   }
 }

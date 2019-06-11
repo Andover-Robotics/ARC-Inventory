@@ -17,6 +17,7 @@ import java.util.stream.Stream;
   Gateway to enable the flow of control to travel from the frontend to the foundation.
  */
 public interface FoundationGateway {
+  Stream<PartType> allParts();
   Stream<PartType> filter(@Nullable Identity searcher, FilterQuery query) throws UnauthorizedException;
   boolean change(Identity changer, Mutation mutation) throws UnauthorizedException;
 

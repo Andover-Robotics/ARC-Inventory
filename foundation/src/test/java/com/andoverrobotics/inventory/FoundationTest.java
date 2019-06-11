@@ -295,4 +295,14 @@ public class FoundationTest {
   public void rollbackToInstantBeforeFirstItemThrowsException() {
     foundation.rollback(whitelistedIdentity, kLogItems[0].getTime().minusMinutes(1));
   }
+
+  @Test
+  public void allPartsCallsPersistence() {
+    when(persistence.getCurrentState()).thenReturn(Stream.empty());
+
+    var out = foundation.allParts();
+
+    assertEquals(0, out.count());
+    verify(persistence).getCurrentState();
+  }
 }

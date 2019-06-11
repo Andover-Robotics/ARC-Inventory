@@ -3,11 +3,12 @@ package com.andoverrobotics.inventory.query;
 import com.andoverrobotics.inventory.PartType;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Supplier;
 
 public class SearchQuery implements FilterQuery {
-  private final String[] tokens;
+  public final String[] tokens;
 
   public SearchQuery(String query) {
     this.tokens = query.split("\\s");
@@ -25,12 +26,18 @@ public class SearchQuery implements FilterQuery {
   }
 
   private List<Supplier<String>> partAttributes(PartType part) {
-    return Arrays.asList(
+    List<Supplier<String>> list = new LinkedList<>(Arrays.asList(
         part::getName,
         part::getPartNumber,
         part::getBrand,
         part::getCategory,
         part::getLocation
-    );
+    ));
+
+    for (var keyword : part.getKeywords()) {
+      list.add(() -> keyword);
+    }
+
+    return list;
   }
 }

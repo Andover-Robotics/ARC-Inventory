@@ -20,6 +20,11 @@ public class Foundation implements FoundationGateway {
   }
 
   @Override
+  public Stream<PartType> allParts() {
+    return persistence.getCurrentState();
+  }
+
+  @Override
   public Stream<PartType> filter(@Nullable Identity searcher, FilterQuery query) throws UnauthorizedException {
     checkNonNull(query, "FilterQuery");
     ensureAuthorized(searcher, Action.READ_INVENTORY);

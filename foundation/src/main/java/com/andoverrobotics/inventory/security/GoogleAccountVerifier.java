@@ -9,7 +9,7 @@ import java.security.GeneralSecurityException;
 import java.util.Collections;
 
 public class GoogleAccountVerifier {
-  private static final String CLIENT_ID = "946689851710-hn96s5kuc0mhehvfcthjilcn73kju42u.apps.googleusercontent.com";
+  private static final String CLIENT_ID = "946689851710-1c8g9b9cce9ltiijc1mjfsvjf8f0u8vm.apps.googleusercontent.com";
 
   private static GoogleIdTokenVerifier verifier;
 
