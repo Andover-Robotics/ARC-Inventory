@@ -30,6 +30,6 @@ public class AuditLogItemImplTest {
     ali = new AuditLogItemImpl(initiator, mutation);
 
     long msDiff = ali.getTime().until(LocalDateTime.now(), ChronoUnit.MICROS);
-    assertTrue(Long.toString(msDiff), msDiff < 50);
+    assertTrue(Long.toString(msDiff), msDiff < 150);
   }
 }

@@ -35,8 +35,10 @@ fun main() {
     Runner.identity
     runSubMenu("Main menu",
             ChangeSub(),
+            BrowseSub(),
             SearchSub(),
             ReflectionSub(),
             AuditSub(),
-            WhitelistSub())
+            WhitelistSub(),
+            ScraperSub())
 }

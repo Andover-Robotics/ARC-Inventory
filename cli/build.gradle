@@ -18,6 +18,7 @@ dependencies {
 
     implementation project(':foundation')
     implementation project(':json-persistence')
+    implementation project(':jsoup')
 }
 
 compileKotlin {

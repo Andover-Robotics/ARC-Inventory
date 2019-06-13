@@ -1,15 +1,18 @@
 package com.andoverrobotics.inventory.cli
 
 import com.andoverrobotics.inventory.PartType
+import com.andoverrobotics.inventory.ScraperGateway
 import com.andoverrobotics.inventory.mutations.Addition
 import com.andoverrobotics.inventory.mutations.Consumption
 import com.andoverrobotics.inventory.mutations.Deletion
 import com.andoverrobotics.inventory.mutations.Mutation
 import com.andoverrobotics.inventory.query.SearchQuery
+import com.andoverrobotics.inventory.scraper.JsoupScraper
 import com.andoverrobotics.inventory.security.Action
 import com.andoverrobotics.inventory.security.AuditLogItem
 import com.andoverrobotics.inventory.security.GoogleIdentity
 import com.andoverrobotics.inventory.security.Identity
+import java.net.URL
 import java.time.LocalDateTime
 
 interface Subsection : Runnable {
@@ -125,6 +128,17 @@ class SearchSub : Subsection {
     }
 }
 
+class BrowseSub : Subsection {
+    override val name = "Show All Parts"
+
+    override fun run() {
+        Runner.foundation.allParts().forEach {
+            println(it.expressPart())
+        }
+        println("-----")
+    }
+}
+
 class ReflectionSub : Subsection {
     override val name = "Who Am I?"
 
@@ -235,6 +249,29 @@ class AuditSub : Subsection {
                 else -> "idk lol"
             }
         }
+}
+
+
+class ScraperSub : Subsection {
+    private val scraper = JsoupScraper()
+
+    override val name = "Try the Scraper"
+
+    override fun run() {
+            try {
+
+                val url = URL(Reader.promptRequireNonEmpty("Enter URL of Part"))
+                val result = scraper.interpret(url)
+
+                println(result?.express() ?: "failed to scrape")
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+    }
+
+    private fun ScraperGateway.Interpretation.express(): String =
+            "Name: $name\nSKU: $partNumber\nBrand: $brand\nURL: $url\nImage: $imageUrl"
 }
 
 fun PartType.expressPart(): String {
