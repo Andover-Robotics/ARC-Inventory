@@ -6,9 +6,10 @@ Programmers:
 - Back end: Michael Peng
 
 
-Summary of Features:
-    This system allows users to add, remove, search for, and keep track of the whereabouts of parts needed to build the robot.
-- Remove parts
+Summary of Features: 
+    This system allows users to add, remove, search for, and keep track of the whereabouts of parts needed to build the robots. Using Google’s Identity Verifier(?), the system manages various levels of access to maintain security. In the future, it will also have a Bill-of-Materials feature, which can be adapted to several purposes within ARC. ARC-Inventory was created using Test-Driven Development, and those interested in seeing the test cases should navigate to the Foundation (?) folder. 
+
+When the system is finished, it will be accessible by club members on (link). 
 - Search for a part — by what criteria?
 - Bill-of-materials? Where if anywhere on GH has Michael put this?
 - Identity verification - whitelist
