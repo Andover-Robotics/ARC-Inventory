@@ -9,7 +9,7 @@ Programmers:
 Summary of Features: 
     This system allows users to add, remove, search for, and keep track of the whereabouts of not only parts needed to build the robots, but any assets of the club. Using Google’s Identity Verifier(?), the system manages various levels of access to maintain security. ARC-Inventory was created using Test-Driven Development, and those interested in seeing the test cases should navigate to the Foundation (?) folder. 
 
-    When the system is finished, it will be accessible by club members on https://inventory.andoverrobotics.com/
+When the system is finished, it will be accessible by club members on https://inventory.andoverrobotics.com/
 
 
 Suggested Uses:
