@@ -4,7 +4,7 @@ Inventory management software for [Andover Robotics Club](andoverrobotics.com) t
 **Current Maintainers:** Daniel Ivanovich and Michael Peng
 
 ## Summary of Features
-This system allows users to add, remove, search for, and keep track of the whereabouts of not only parts needed to build the robots, but any assets of the club. Using Google accounts for authentication, the system manages various levels of access to maintain security. ARC-Inventory was created using Test-Driven Development, and those interested in seeing the test cases should navigate to the Foundation folder. 
+This system allows users to add, remove, search for, and keep track of the whereabouts of not only parts needed to build the robots, but any assets of the club. Using Google accounts for authentication, the system manages various levels of access to maintain security. ARC-Inventory was created using Test-Driven Development, and those interested in seeing the test cases should navigate to the [foundation](foundation/src/test) folder. 
 
 When the system is finished, it will be accessible by club members at https://inventory.andoverrobotics.com.
 
