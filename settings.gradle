@@ -4,4 +4,4 @@ include 'cli'
 include 'sql-persistence'
 include 'json-persistence'
 include 'jsoup'
-
+include 'web'
