@@ -1,0 +1,9 @@
+<#import "macros.template" as macros>
+<!DOCTYPE html>
+<html lang="en">
+<@macros.head title="Home" />
+<body>
+<@macros.nav />
+<@macros.importJS />
+</body>
+</html>
