@@ -24,7 +24,7 @@
 </#macro>
 
 <#macro nav>
-<nav>
+<nav class="fixed">
     <div class="nav-wrapper light-blue darken-4">
         <a href="/" class="brand-logo">ARC Inventory</a>
         <a href="#" data-target="mobile-demo" class="sidenav-trigger right"><i class="material-icons">menu</i></a>
@@ -35,11 +35,6 @@
 </nav>
 
 <ul class="sidenav" id="mobile-demo">
-    <li>
-        <div class="container">
-            <h1>ARC Inventory</h1>
-        </div>
-    </li>
     <@nav_links />
 </ul>
 </#macro>

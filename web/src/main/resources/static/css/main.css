@@ -1,4 +1,101 @@
 /***** MATERIALIZE OVERRIDES *****/
+/*** NAV ***/
 nav .brand-logo {
     padding: 0 15px;
+    cursor: pointer;
 }
+
+nav .sidenav-trigger {
+    margin: 0 0;
+    padding: 0 18px;
+}
+
+nav .brand-logo,
+nav .sidenav-trigger {
+    transition: background-color 0.5s;
+}
+
+nav .brand-logo:hover,
+nav .sidenav-trigger:hover {
+    background-color: rgba(0,0,0,0.1);
+}
+
+nav.fixed {
+    position: fixed;
+}
+
+.sidenav-overlay {
+    cursor: pointer;
+}
+
+/***** GENERAL *****/
+.full-height {
+    height: 100vh;
+}
+
+.full-width {
+    width: 100%;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+img.centered-image {
+    display: block;
+    margin: 0 auto;
+}
+
+.no-margin {
+    margin: 0!important;
+}
+
+.title {
+    font-size: 3rem;
+}
+
+.subtitle {
+    font-size: 1.75rem;
+    margin-top: 15px;
+}
+
+.half-width {
+    width: 50%;
+}
+
+/***** MEDIA QUERIES *****/
+
+/* REFERENCE:
+ * Large Desktop Devices: width > 1200px
+ * Desktop Devices: width > 992px
+ * Tablets: width > 600px
+ * Mobile: width <= 600px
+ */
+
+/* Tablet Styling */
+@media screen and (max-width: 992px) {
+    .title {
+        font-size: 2.5rem;
+    }
+
+    .subtitle {
+        font-size: 1.5rem;
+    }
+}
+
+/* Mobile Styling */
+@media screen and (max-width: 600px) {
+    .title {
+        font-size: 2rem;
+    }
+
+    .subtitle {
+        font-size: 1.25rem;
+    }
+
+    nav .brand-logo {
+        font-size: 1.25rem;
+    }
+}
+
