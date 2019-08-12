@@ -12,5 +12,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity security) throws Exception {
         security.httpBasic().disable(); // Disable default login page at /login and automatic redirects to /login
+        security.csrf().disable();      // Disable the need for csrf in ajax
     }
 }

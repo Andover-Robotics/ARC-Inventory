@@ -1,0 +1,16 @@
+<#import "macros.template" as macros>
+<!DOCTYPE html>
+<html lang="en">
+<@macros.head title="Home" google_sign_in=true />
+<body>
+<@macros.nav />
+<main>
+    <section class="section full-height full-width valign-wrapper">
+        <div class="container light-blue-text text-darken-4 center-align">
+            <div class="g-signin2" data-onsuccess="googleSignInSuccess" data-theme="dark"></div>
+        </div>
+    </section>
+</main>
+<@macros.importJS />
+</body>
+</html>
