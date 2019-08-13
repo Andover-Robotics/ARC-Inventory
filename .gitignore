@@ -29,3 +29,5 @@ Thumbs.db
 .classpath
 .project
 **/*.iml
+
+**/build

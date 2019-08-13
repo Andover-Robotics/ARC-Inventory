@@ -17,7 +17,7 @@ nav .sidenav-trigger {
 
 nav .brand-logo:hover,
 nav .sidenav-trigger:hover {
-    background-color: rgba(0,0,0,0.1);
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
 nav.fixed {
@@ -26,6 +26,16 @@ nav.fixed {
 
 .sidenav-overlay {
     cursor: pointer;
+}
+
+/***** GOOGLE SIGN IN *****/
+
+.g-signin2 {
+    width: 100%;
+}
+
+.g-signin2 > div {
+    margin: 0 auto;
 }
 
 /***** GENERAL *****/
@@ -48,7 +58,7 @@ img.centered-image {
 }
 
 .no-margin {
-    margin: 0!important;
+    margin: 0 !important;
 }
 
 .title {
@@ -64,6 +74,16 @@ img.centered-image {
     width: 50%;
 }
 
+a.white-link {
+    color: white!important;
+    transition: 0.75s opacity;
+    text-decoration: underline;
+}
+
+a.white-link:hover {
+    color: white!important;
+    opacity: 0.6;
+}
 /***** MEDIA QUERIES *****/
 
 /* REFERENCE:
@@ -99,3 +119,8 @@ img.centered-image {
     }
 }
 
+@media screen and (min-width: 570px) {
+    .subtitle.small-subtitle.flow-text {
+        font-size: 1.37rem!important;
+    }
+}
