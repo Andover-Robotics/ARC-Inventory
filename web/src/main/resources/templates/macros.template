@@ -16,7 +16,7 @@
 
     <#if google_sign_in>
     <meta name="google-signin-scope" content="profile email">
-    <meta name="google-signin-client_id" content="946689851710-hn96s5kuc0mhehvfcthjilcn73kju42u.apps.googleusercontent.com">
+    <meta name="google-signin-client_id" content="946689851710-1c8g9b9cce9ltiijc1mjfsvjf8f0u8vm.apps.googleusercontent.com">
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     </#if>
 
