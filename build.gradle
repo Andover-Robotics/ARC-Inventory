@@ -18,4 +18,5 @@ dependencies {
     implementation project(':foundation')
     implementation project(':json-persistence')
     implementation project(':cli')
+    implementation project(':web')
 }

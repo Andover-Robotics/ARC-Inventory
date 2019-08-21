@@ -1,11 +1,39 @@
+let gapiLoaded = false;
+
+gapi.load('auth2', initSigninV2);
+
+function initSigninV2() {
+    let clientId = getMetaByName('google-signin-client_id');
+    gapi.auth2.init({
+        client_id: (clientId !== null) ? clientId : '946689851710-1c8g9b9cce9ltiijc1mjfsvjf8f0u8vm.apps.googleusercontent.com'
+    }).then(function (authInstance) {
+        // now auth2 is fully initialized
+        gapiLoaded = true;
+    });
+}
+
+function getMetaByName(name) {
+    let metas = document.getElementsByTagName('meta');
+
+    for (let i = 0; i < metas.length; i++) {
+        if (metas[i].getAttribute('name') === name) {
+            return metas[i].getAttribute('content');
+        }
+    }
+
+    return null;
+}
+
 function googleSignInSuccess(googleUser) {
     // Extract and POST the token
     let token = googleUser.getAuthResponse().id_token;
+    let email = googleUser.getBasicProfile().getEmail();
     $.ajax({
         type: "POST",
         url: "/login",
         data: JSON.stringify({
-            'token': token
+            'token': token,
+            'email': email
         }),
         contentType: "application/json",
         dataType: 'text',

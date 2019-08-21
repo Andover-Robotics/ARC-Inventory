@@ -1,0 +1,24 @@
+<#import "macros.template" as macros>
+<!DOCTYPE html>
+<html lang="en">
+<@macros.head title="Log Out" google_sign_in=true />
+<body class="light-blue darken-4">
+<main>
+    <section class="section full-height full-width valign-wrapper">
+        <div class="container center-align white-text">
+            <h1 class="title no-margin">Logging you out, please wait...</h1>
+            <br>
+            <img src="img/Loading.gif" alt="Loading..." class="centered-image" style="max-width: 32px;">
+        </div>
+    </section>
+    <script type="text/javascript">
+        let checkInterval = setInterval(() => {
+            if(gapiLoaded) {
+               clearInterval(checkInterval);
+               signOut('/');
+            }
+        }, 10);
+    </script>
+</main>
+</body>
+</html>

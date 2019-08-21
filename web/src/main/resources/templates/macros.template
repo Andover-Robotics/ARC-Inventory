@@ -1,4 +1,4 @@
-<#macro head title google_sign_in=false>
+<#macro head title google_sign_in=true>
 <head>
     <meta charset="UTF-8">
     <title>${title + " | ARC Inventory"}</title>
@@ -14,20 +14,23 @@
     <base href="/">
     <link href="/css/main.css" rel="stylesheet">
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
     <#if google_sign_in>
     <meta name="google-signin-scope" content="profile email">
-    <meta name="google-signin-client_id" content="946689851710-1c8g9b9cce9ltiijc1mjfsvjf8f0u8vm.apps.googleusercontent.com">
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id"
+          content="946689851710-1c8g9b9cce9ltiijc1mjfsvjf8f0u8vm.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/platform.js?onload=onLoadCallback"></script>
+    <script src="js/googleSignIn.js"></script>
     </#if>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 </head>
 </#macro>
 
 <#macro nav_links logged_in>
 <li><a href="/about">About</a></li>
-<li><a href="/${logged_in?then('logout', 'login')}">${logged_in?then('Log Out', 'Log In')}</a></li>
+<li><a href="${logged_in?then('/logout', '/login')}">${logged_in?then('Log Out', 'Log In')}</a></li>
 </#macro>
 
 <#macro nav is_logged_in = false>
@@ -50,5 +53,4 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <script src="js/sidenav.js"></script>
 <script src="/js/main.js"></script>
-<script src="js/googleSignIn.js"></script>
 </#macro>

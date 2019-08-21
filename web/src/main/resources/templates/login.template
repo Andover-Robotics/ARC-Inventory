@@ -3,7 +3,7 @@
 <html lang="en">
 <@macros.head title="Home" google_sign_in=true />
 <body class="light-blue darken-4">
-<@macros.nav />
+<@macros.nav logged_in/>
 <main>
     <section class="section full-height full-width valign-wrapper">
         <div class="container center-align white-text">
