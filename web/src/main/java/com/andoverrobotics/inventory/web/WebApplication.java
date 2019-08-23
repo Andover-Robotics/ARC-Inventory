@@ -3,7 +3,7 @@ package com.andoverrobotics.inventory.web;
 import com.andoverrobotics.inventory.Foundation;
 import com.andoverrobotics.inventory.json.JsonPersistence;
 import com.andoverrobotics.inventory.security.GoogleAccountVerifier;
-import com.andoverrobotics.inventory.security.GoogleIdentity;
+import com.andoverrobotics.inventory.web.cache.CacheEntity;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @SpringBootApplication
 public class WebApplication {
     public static Foundation foundation;
-    public static ConcurrentHashMap<String, GoogleIdentity> userCache;
+    public static ConcurrentHashMap<String, CacheEntity> userCache;
     public static EncryptionManager encryptionManager;
 
     public static void main(String[] args) {

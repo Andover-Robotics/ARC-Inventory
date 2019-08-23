@@ -1,5 +1,7 @@
 package com.andoverrobotics.inventory.web;
 
+import com.andoverrobotics.inventory.web.cache.CacheManager;
+
 import java.util.regex.Pattern;
 
 public class Validators {
@@ -19,7 +21,7 @@ public class Validators {
         if(Validators.isValidEmail(decryptedEmail)) {
             // Off to a good start, valid email
 
-            if(CacheManager.getIdentity(decryptedEmail) != null) {
+            if(CacheManager.getEntity(decryptedEmail) != null) {
                 // Has an entity in the HashMap cache, they're logged in
                 return true;
             }

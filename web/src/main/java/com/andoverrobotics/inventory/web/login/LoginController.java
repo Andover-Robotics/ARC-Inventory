@@ -4,11 +4,10 @@ import com.andoverrobotics.inventory.Foundation;
 import com.andoverrobotics.inventory.security.GoogleIdentity;
 import com.andoverrobotics.inventory.security.Identity;
 import com.andoverrobotics.inventory.security.PermissionLevel;
-import com.andoverrobotics.inventory.web.CacheManager;
+import com.andoverrobotics.inventory.web.cache.CacheManager;
 import com.andoverrobotics.inventory.web.GlobalConfig;
 import com.andoverrobotics.inventory.web.Validators;
 import com.andoverrobotics.inventory.web.WebApplication;
-import org.springframework.cache.Cache;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -35,16 +34,25 @@ public class LoginController {
                 if (accountPermissionLevel != PermissionLevel.PUBLIC && accountPermissionLevel != null) {
                     // Account is valid, check that email has been passed correctly
                     String email = loginPostBody.getEmail();
-                    if (email != null && email.length() > 0 && email.contains("@")) {
-                        // Valid email, create cookie and add to cache HashMap
-                        Cookie cookie = new Cookie("session", WebApplication.encryptionManager.encrypt(email));
+                    if (Validators.isValidEmail(email)) {
+                        // Encrypt email
+                        String encryptedEmail = WebApplication.encryptionManager.encrypt(email);
+
+                        if (Validators.isLoggedIn(encryptedEmail)) {
+                            // Already logged in, refresh session
+                            CacheManager.getEntity(email).refreshSession();
+                        } else {
+                            // Not logged in, add to cache
+                            CacheManager.addNode(email, (GoogleIdentity) identity);
+                        }
+
+                        // Create session cookie
+                        Cookie cookie = new Cookie("session", encryptedEmail);
                         cookie.setMaxAge(GlobalConfig.LOGIN_SESSION_TIME_IN_SEC);
                         cookie.setPath(GlobalConfig.SESSION_COOKIE_ENDPOINT);
                         cookie.setHttpOnly(true);
 
                         response.addCookie(cookie);
-
-                        CacheManager.addNode(email, (GoogleIdentity) identity);
 
                         return new ResponseEntity(HttpStatus.ACCEPTED);
                     } else
@@ -62,10 +70,7 @@ public class LoginController {
     @RequestMapping("/logout-cookies")
     public String logOutUserInternal(@CookieValue(value = "session", defaultValue = "") String encryptedEmail, HttpServletResponse response) {
         // Delete the old cookie
-        Cookie emptyCookie = new Cookie("session", null); // Not necessary, but saves bandwidth.
-        emptyCookie.setPath(GlobalConfig.SESSION_COOKIE_ENDPOINT);
-        emptyCookie.setMaxAge(0);
-        response.addCookie(emptyCookie);
+        clearSessionCookie(response);
 
         try {
             response.sendRedirect("/logout-google");
@@ -91,5 +96,12 @@ public class LoginController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("logout"); // Render logout.template, which logs the user out of Google
         return modelAndView;
+    }
+
+    private void clearSessionCookie(HttpServletResponse response) {
+        Cookie emptyCookie = new Cookie("session", null); // Not necessary, but saves bandwidth.
+        emptyCookie.setPath(GlobalConfig.SESSION_COOKIE_ENDPOINT);
+        emptyCookie.setMaxAge(0);
+        response.addCookie(emptyCookie);
     }
 }
