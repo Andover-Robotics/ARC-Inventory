@@ -29,7 +29,9 @@
 </#macro>
 
 <#macro nav_links logged_in>
+<li><a href="/">Home</a></li>
 <li><a href="/about">About</a></li>
+<li><a href="/browse">Browse</a></li>
 <li><a href="${logged_in?then('/logout', '/login')}">${logged_in?then('Log Out', 'Log In')}</a></li>
 </#macro>
 

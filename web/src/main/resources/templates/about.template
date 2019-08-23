@@ -1,0 +1,13 @@
+<#import "macros.template" as macros>
+<!DOCTYPE html>
+<html lang="en">
+<@macros.head title="About" />
+<body>
+<@macros.nav logged_in />
+<main>
+    <section class="section">
+    </section>
+</main>
+<@macros.importJS />
+</body>
+</html>

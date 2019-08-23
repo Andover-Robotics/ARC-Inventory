@@ -39,4 +39,10 @@ public class CacheEntity {
 
         timer.schedule(clearTask, GlobalConfig.LOGIN_SESSION_TIME_IN_SEC * 1000);
     }
+
+    // Permanently cancels the timer
+    public void cancelRemoval() {
+        timer.cancel();
+        timer.purge();
+    }
 }

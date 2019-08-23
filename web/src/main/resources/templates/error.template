@@ -1,0 +1,25 @@
+<#import "macros.template" as macros>
+<!DOCTYPE html>
+<html lang="en">
+<@macros.head title="Error!" />
+<body class="light-blue darken-4 no-padding">
+<@macros.nav logged_in/>
+<main>
+    <script>
+        if(!window.location.href.endsWith("/error"))
+            window.location.href = "/error";
+    </script>
+    <section class="section full-height full-width valign-wrapper">
+        <div class="container center-align white-text">
+            <h1 class="title no-margin">Sorry, but ARC Inventory has encountered an error!</h1>
+            <#if error_code?? && error_description??>
+                <h2 class="subtitle">Error ${error_code}:</h2>
+                <h2 class="subtitle">${error_description}</h2>
+            </#if>
+            <h3 class="subtitle">Return to <a href="/" class="white-link">home page</a>?</h3>
+        </div>
+    </section>
+</main>
+<@macros.importJS />
+</body>
+</html>

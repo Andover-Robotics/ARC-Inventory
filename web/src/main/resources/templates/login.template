@@ -1,8 +1,8 @@
 <#import "macros.template" as macros>
 <!DOCTYPE html>
 <html lang="en">
-<@macros.head title="Home" google_sign_in=true />
-<body class="light-blue darken-4">
+<@macros.head title="Log In" google_sign_in=true />
+<body class="light-blue darken-4 no-padding">
 <@macros.nav logged_in/>
 <main>
     <section class="section full-height full-width valign-wrapper">

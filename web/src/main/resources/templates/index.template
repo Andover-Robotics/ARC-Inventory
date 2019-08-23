@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <@macros.head title="Home" />
-<body>
+<body class="no-padding">
 <@macros.nav logged_in />
 <main>
     <section class="section full-height full-width valign-wrapper">

@@ -1,0 +1,68 @@
+<#import "macros.template" as macros>
+<!DOCTYPE html>
+<html lang="en">
+<@macros.head title="Browse" />
+<body>
+<@macros.nav logged_in />
+<main>
+    <section class="section container">
+        <table class="responsive-table">
+            <thead>
+            <tr>
+                <#list fields as field>
+                    <th>${field.name}</th>
+                </#list>
+            </tr>
+            </thead>
+            <tbody>
+            <#list parts as part>
+                <tr>
+                    <#list fields as field>
+                        <#assign property_to_show = "">
+                        <#list part?keys as property>
+                            <#if field.name == property>
+                                <#assign property_to_show = property>
+                                <#break>
+                            </#if>
+                        </#list>
+
+                        <#if property_to_show?has_content>
+                            <#if property_to_show != "keywords" && !property_to_show?lower_case?contains("url")>
+                                <#assign str = r"${part." + property_to_show + r"}">
+                                <#assign interp = str?interpret >
+                                <td><@interp /></td>
+                            <#elseif property_to_show?lower_case?contains("url")>
+                                <td><a href="${property_to_show}" target="_blank">Visit</a></td>
+                            <#else>
+                                <td>
+                                    <ul>
+                                        <#list part.keywords as keyword>
+                                            <li>${keyword}</li>
+                                        </#list>
+                                    </ul>
+                                </td>
+                            </#if>
+                        </#if>
+                    </#list>
+                </tr>
+            </#list>
+            </tbody>
+        </table>
+
+        <ul class="pagination center-align">
+            <#assign first_page = current_page == 1>
+            <li class="${first_page?then('disabled', 'waves-effect')}"><a href="/browse/${current_page - 1}"><i class="material-icons">chevron_left</i></a></li>
+
+            <#list 1..num_pages as page>
+                <#assign active = page == current_page>
+                <li class="light-blue darken-4 ${active?then('active', 'waves-effect')}"><a class="white-text" href="/browse/${page}">${page}</a></li>
+            </#list>
+
+            <#assign last_page = current_page == num_pages>
+            <li class="${last_page?then('disabled', 'waves-effect')}"><a href="/browse/${current_page + 1}"><i class="material-icons">chevron_right</i></a></li>
+        </ul>
+    </section>
+</main>
+<@macros.importJS />
+</body>
+</html>

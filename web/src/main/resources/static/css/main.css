@@ -28,6 +28,13 @@ nav.fixed {
     cursor: pointer;
 }
 
+.disabled a {
+    pointer-events: none;
+}
+
+.pagination li.active a {
+    pointer-events: none;
+}
 /***** GOOGLE SIGN IN *****/
 
 .g-signin2 {
@@ -75,15 +82,24 @@ img.centered-image {
 }
 
 a.white-link {
-    color: white!important;
+    color: white !important;
     transition: 0.75s opacity;
     text-decoration: underline;
 }
 
 a.white-link:hover {
-    color: white!important;
+    color: white !important;
     opacity: 0.6;
 }
+
+body main {
+    padding-top: 64px;
+}
+
+body.no-padding main {
+    padding-top: 0;
+}
+
 /***** MEDIA QUERIES *****/
 
 /* REFERENCE:
@@ -117,10 +133,14 @@ a.white-link:hover {
     nav .brand-logo {
         font-size: 1.25rem;
     }
+
+    body main {
+        padding-top: 56px;
+    }
 }
 
 @media screen and (min-width: 570px) {
     .subtitle.small-subtitle.flow-text {
-        font-size: 1.37rem!important;
+        font-size: 1.37rem !important;
     }
 }
